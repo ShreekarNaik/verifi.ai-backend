@@ -1,5 +1,5 @@
 from pydantic import BaseModel, UUID4
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 from datetime import datetime
 from enum import Enum
 
@@ -26,7 +26,8 @@ class Item(BaseModel):
 class Violation(BaseModel):
     rule_id: str
     description: str
-    resolution_steps: Optional[str] = None
+    # resolution_steps: Optional[str] = None
+    resolution_steps: str
     condition_str: str
 
 class ConsignmentBase(BaseModel):
@@ -69,3 +70,18 @@ class ComplianceCheck(BaseModel):
 class ComplianceResponse(BaseModel):
     status: ConsignmentStatus
     violations: List[Violation] 
+
+class BatchComplianceCheck(BaseModel):
+    """Schema for batch compliance check request"""
+    consignment_ids: List[UUID4]
+
+class BatchComplianceResponse(BaseModel):
+    """Schema for batch compliance check response"""
+    results: List[ComplianceResponse]
+    summary: dict
+
+class PaginatedConsignmentResponse(BaseModel):
+    consignments: List[ConsignmentResponse]
+    total: int
+    skip: int
+    limit: int

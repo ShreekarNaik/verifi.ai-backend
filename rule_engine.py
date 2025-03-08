@@ -15,9 +15,9 @@ class Rule:
     """Rule class that can be used independently of the database"""
     def __init__(self, id: str, name: str, description: str, condition: str):
         self.id = id
-        self.name = name
-        self.description = description
-        self.condition = condition
+        self.name = name.strip()
+        self.description = description.strip()  
+        self.condition = condition.strip()
         self.status = 'active'
 
 class RuleEvaluator:
@@ -118,14 +118,14 @@ class ComplianceEngine:
         violations: List[Violation] = []
         
         for rule in self.rules:
-            passed, violation_details = RuleEvaluator.evaluate(rule.condition, consignment_data)
+            passed, violation_info = RuleEvaluator.evaluate(rule.condition, consignment_data)
             if not passed:
                 violations.append(
                     Violation(
                         rule_id=str(rule.id),
                         description=rule.description,
                         condition_str=rule.condition,
-                        resolution_steps=f"Please check that your consignment complies with the following rule: {violation_details}"
+                        resolution_steps=f"Please check that your consignment complies with this rule"
                     )
                 )
 
