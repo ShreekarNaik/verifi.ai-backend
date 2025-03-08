@@ -125,7 +125,7 @@ class ComplianceEngine:
                         rule_id=str(rule.id),
                         description=rule.description,
                         condition_str=rule.condition,
-                        resolution_steps="Please review and ensure compliance with the rule conditions."
+                        resolution_steps=f"Please check that your consignment complies with the following rule: {violation_details}"
                     )
                 )
 
